@@ -15,6 +15,7 @@ public class GraphicsPanel extends JPanel {
 	private int lineLength;
 	private int linePosition;
 	private int delimiterLength;
+	private boolean ball2Visible;
 	
 	public GraphicsPanel(int delimiterCount, int ballRadius, int ballPosition, int lineLength, int linePosition) {
 		this.delimiterCount = delimiterCount;
@@ -24,6 +25,8 @@ public class GraphicsPanel extends JPanel {
 		this.linePosition = linePosition;
 		
 		delimiterLength = lineLength / delimiterCount;
+		
+		boolean ball2Visible;
 	}
 	
 	@Override
@@ -38,10 +41,15 @@ public class GraphicsPanel extends JPanel {
 			g2.fillOval(linePosition - 5, delimiterLength * i, 10, 10);
 		}
 		g2.setColor(Color.GREEN);
-		g2.fillRect(linePosition-20, -10, 40, 40);
+		g2.fillRect(linePosition-20, 0, 40, 45);
 		
 		g2.setColor(Color.BLUE);
 		g2.fillOval(linePosition - ballRadius/2, lineLength - (delimiterLength * ballPosition) - ballRadius/2, ballRadius, ballRadius);
+		
+		if (ball2Visible) {
+			g2.setColor(Color.RED);
+			g2.fillOval(linePosition - ballRadius/2, lineLength - (delimiterLength * (ballPosition+1)) - ballRadius/2, ballRadius, ballRadius);
+		}
 	}
 	
 	public void setDelimiterCount(int delimiterCount) {
@@ -54,6 +62,10 @@ public class GraphicsPanel extends JPanel {
 	
 	public void setBallPosition(int ballPosition) {
 		this.ballPosition = ballPosition;
+	}
+	
+	public void setBall2Visibility(boolean flag) {
+		this.ball2Visible = flag;
 	}
 	
 	

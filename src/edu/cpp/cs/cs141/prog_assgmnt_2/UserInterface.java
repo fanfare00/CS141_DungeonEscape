@@ -29,6 +29,7 @@ public class UserInterface extends JFrame {
 	}
 	
 	public void init() {
+		
 		this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		this.setResizable(false);
 		this.setVisible(true);
@@ -83,6 +84,8 @@ public class UserInterface extends JFrame {
 		graphicsPanel.setBallPosition(ballPosition);
 		graphicsPanel.update(graphicsPanel.getGraphics());
 	}
+	
+	
 	public void state_Begin() {
 		
 		centerButton.setText("Walk Forward");
@@ -113,6 +116,8 @@ public class UserInterface extends JFrame {
 		rightButton.setVisible(false);
 		leftButton.setVisible(false);
 		topButton.setVisible(false);
+		
+		graphicsPanel.setBall2Visibility(false);
 	}
 	
 	public void state_Battling() {
@@ -120,6 +125,8 @@ public class UserInterface extends JFrame {
 		rightButton.setVisible(true);
 		leftButton.setVisible(true);
 		topButton.setVisible(false);
+		
+		graphicsPanel.setBall2Visibility(true);
 	}
 	
 	public void state_Waiting() {
@@ -129,6 +136,20 @@ public class UserInterface extends JFrame {
 		rightButton.setVisible(false);
 		leftButton.setVisible(false);
 		topButton.setVisible(true);
+		
+	}
+	
+	public void state_Ending() {
+		centerButton.setVisible(true);
+		rightButton.setVisible(false);
+		leftButton.setVisible(false);
+		topButton.setVisible(false);
+		
+		centerButton.setText("New Game");
+		centerButton.removeActionListener(centerButton.getActionListeners()[0]); 
+		centerButton.addActionListener((ActionEvent e) -> {
+			application.startNewGame();
+		});
 	}
 	
 	public void setStatus(String status) {
