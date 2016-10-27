@@ -5,17 +5,31 @@ public abstract class Weapon {
 	private int damage;
 	private int maxAmmo;
 	private int currentAmmo;
+	private String name;
 	
-	public Weapon(double accuracy, int damage, int maxAmmo) {
+	public Weapon(String name, double accuracy, int damage, int maxAmmo) {
 		this.accuracy = accuracy;
 		this.damage = damage;
 		this.maxAmmo = maxAmmo;
 		this.currentAmmo = maxAmmo;
+		this.name = name;
 	}
 	
 	public Weapon() {}
 	
 	public void reload() {
 		currentAmmo = maxAmmo;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public double getAccuracy() {
+		return accuracy;
+	}
+	
+	public int getDamage() { 
+		return damage;
 	}
 }
