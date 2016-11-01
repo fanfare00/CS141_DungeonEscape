@@ -45,8 +45,16 @@
  tried to write it in a way that was more disentangled and
  consequently it only took me an hour or so to finish.
 
- My biggest difficulty with this assignment was having to 
- Javadoc everything. It seems like complete overkill to
- have to put links to every reference and write lengthy
+ The only real problem I had was trying to recoconcille
+ newly gained knowledge about the workings of big and complex
+ programs with the fact that this was meant to be a small
+ scale assignment. There are parts of this program's code 
+ that looks very sloppy to me, and I could make them a lot
+ nicer, but I feel like that would betray the simple nature 
+ of this assignment. 
+ 
+ The other biggest difficulty I had with this assignment was 
+ having to Javadoc everything. It seems like complete overkill
+ to have to put links to every reference and write lengthy
  details about all sorts of call backs when a simple 
  "//this method does this" would suffice.
