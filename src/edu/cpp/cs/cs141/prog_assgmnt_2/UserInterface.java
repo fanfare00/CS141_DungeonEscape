@@ -1,161 +1,226 @@
 package edu.cpp.cs.cs141.prog_assgmnt_2;
 
-import java.awt.event.ActionEvent;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UserInterface.
+ */
+public class UserInterface {
 
-public class UserInterface extends JFrame {
-
-	private static final int WINDOW_WIDTH = 360;
-	private static final int WINDOW_HEIGHT = 640;
+	/** The Constant STATE_BEGINNING. */
+	public static final int STATE_BEGINNING = 0;
 	
+	/** The Constant STATE_TRAVELING. */
+	public static final int STATE_TRAVELING = 1;
+	
+	/** The Constant STATE_BATTLING. */
+	public static final int STATE_BATTLING = 2;
+	
+	/** The Constant STATE_ENDING. */
+	public static final int STATE_ENDING = 3;
+	
+	/** The Constant STATE_WAITING. */
+	public static final int STATE_WAITING = 4;
+	
+	
+	/** The Constant KEY_SHOOT. */
+	private static final char KEY_SHOOT = 's';
+	
+	/** The Constant KEY_FLEE. */
+	private static final char KEY_FLEE = 'f';
+	
+	/** The Constant KEY_WALK. */
+	private static final char KEY_WALK = 'w';
+	
+	/** The Constant KEY_QUIT. */
+	private static final char KEY_QUIT = 'q';
+	
+	/** The Constant KEY_NEW. */
+	private static final char KEY_NEW = 'n';
+	
+	/** The Constant KEY_CONT. */
+	private static final char KEY_CONT = 'c';
+	
+	/** The Constant KEY_1. */
+	private static final char KEY_1 = '1';
+	
+	/** The Constant KEY_2. */
+	private static final char KEY_2 = '2';
+	
+	/** The Constant KEY_3. */
+	private static final char KEY_3 = '3';
+	
+	
+	/** The Constant KEYS. */
+	private static final List<Character> KEYS = Arrays.asList(
+			KEY_SHOOT, 
+			KEY_FLEE, 
+			KEY_WALK, 
+			KEY_QUIT, 
+			KEY_NEW, 
+			KEY_CONT, 
+			KEY_1, 
+			KEY_2, 
+			KEY_3 );
+	
+	/** The active keys. */
+	private boolean[] activeKeys = new boolean[KEYS.size()];
+	
+	/** The application. */
 	private Application application;
 	
-	private JLabel statusLabel;
+	/** The state. */
+	private int state;
 	
-	private JButton leftButton;
-	private JButton rightButton;
-	private JButton centerButton;
-	private JButton topButton;
+	/** The scanner. */
+	private Scanner scanner;
 	
-	private GraphicsPanel graphicsPanel;
+	/** The status. */
+	private String status;
 	
+	/** The instructions. */
+	private String instructions;
+	
+	/** The input. */
+	private char input;
+	
+	/**
+	 * Instantiates a new user interface.
+	 */
 	public UserInterface() {
-		init();
+		scanner = new Scanner(System.in);
 	}
 	
-	public void init() {
-		
-		this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-		this.setResizable(false);
-		this.setVisible(true);
-		this.setFocusable(true);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("J. Donald's Dungeon Escape");
-		this.setLayout(null);
-		
-		statusLabel = new JLabel("Choose Your Weapon", SwingConstants.CENTER);
-		statusLabel.setBounds(0, 10, WINDOW_WIDTH, 30);
-		this.add(statusLabel);
-		
-		leftButton = new JButton("Pistol");
-		leftButton.setBounds(10, WINDOW_HEIGHT-65, 100, 25);
-		leftButton.addActionListener((ActionEvent e) -> {
-			application.chooseWeapon(leftButton.getText());
-		});
-		leftButton.setVisible(true);
-		this.add(leftButton);
-		
-		rightButton = new JButton("Shotgun");
-		rightButton.setBounds(WINDOW_WIDTH-115, WINDOW_HEIGHT-65, 100, 25);
-		rightButton.addActionListener((ActionEvent e) -> {
-			application.chooseWeapon(rightButton.getText());
-		});
-		rightButton.setVisible(true);
-		this.add(rightButton);
-		
-		
-		centerButton = new JButton("Rifle");
-		centerButton.setBounds(WINDOW_WIDTH/2 - 65, WINDOW_HEIGHT-65, 125, 25);
-		centerButton.addActionListener((ActionEvent e) -> {
-			application.chooseWeapon(centerButton.getText());
-		});
-		centerButton.setVisible(true);
-		this.add(centerButton);
-		
-		topButton = new JButton("Continue");
-		topButton.setBounds(WINDOW_WIDTH/2 - 65, WINDOW_HEIGHT-95, 125, 25);
-		topButton.addActionListener((ActionEvent e) -> {
-			application.enemyCombat();
-		});
-		topButton.setVisible(false);
-		this.add(topButton);
-		
-		graphicsPanel = new GraphicsPanel(11, 25, 0, 400, WINDOW_WIDTH/2);
-		graphicsPanel.setBounds(0, 75, WINDOW_WIDTH, WINDOW_HEIGHT-200);
-		this.add(graphicsPanel);
+	/**
+	 * Inits the.
+	 *
+	 * @param application the application
+	 */
+	public void init(Application application) {
+		state = STATE_BEGINNING;
+	    update(); 
 	}
 	
-	public void updateBallPosition(int ballPosition) {
-		graphicsPanel.setBallPosition(ballPosition);
-		graphicsPanel.update(graphicsPanel.getGraphics());
+	/**
+	 * Update.
+	 */
+	public void update() {
+		
+		Arrays.fill(activeKeys, false);
+		
+		switch (state) {
+			case STATE_BEGINNING:
+				instructions = "Choose your weapon:";
+				activeKeys[KEYS.indexOf(KEY_1)] = true;
+				activeKeys[KEYS.indexOf(KEY_2)] = true;
+				activeKeys[KEYS.indexOf(KEY_3)] = true;
+				break;
+			case STATE_TRAVELING:
+				instructions = "Type 'W' to take a step forward\n";
+				activeKeys[KEYS.indexOf(KEY_WALK)] = true;
+				break;
+			case STATE_BATTLING:
+				instructions = "Type 'S' to shoot OR type 'F' to flee\n";
+				activeKeys[KEYS.indexOf(KEY_FLEE)] = true;
+				activeKeys[KEYS.indexOf(KEY_SHOOT)] = true;
+				break;
+			case STATE_WAITING:
+				instructions = "Type 'C' to continue\n";
+				activeKeys[KEYS.indexOf(KEY_CONT)] = true;
+				break;
+			case STATE_ENDING:
+				instructions = "Type 'N' to start a new game OR type 'Q' to close\n";
+				activeKeys[KEYS.indexOf(KEY_QUIT)] = true;
+				activeKeys[KEYS.indexOf(KEY_NEW)] = true;
+				break;
+		}
+		
+		System.out.println(status + "\n" + instructions);
+		
+		handleInput();
+		update();
 	}
 	
-	
-	public void state_Begin() {
+	/**
+	 * Handle input.
+	 */
+	public void handleInput() {
 		
-		centerButton.setText("Walk Forward");
-		centerButton.removeActionListener(centerButton.getActionListeners()[0]); 
-		centerButton.addActionListener((ActionEvent e) -> {
-			application.walkForward();
-		});
+		input = getUserInput();
 		
-		rightButton.setText("Flee");
-		rightButton.removeActionListener(rightButton.getActionListeners()[0]); 
-		rightButton.addActionListener((ActionEvent e) -> {
-			application.attemptFlee();
-		});
-		
-		leftButton.setText("Shoot");
-		leftButton.removeActionListener(leftButton.getActionListeners()[0]); 
-		leftButton.addActionListener((ActionEvent e) -> {
-			application.playerCombat();
-		});
-		
-		state_Traveling();
-	}
-	
-	public void state_Traveling() {
-
-		
-		centerButton.setVisible(true);
-		rightButton.setVisible(false);
-		leftButton.setVisible(false);
-		topButton.setVisible(false);
-		
-		graphicsPanel.setBall2Visibility(false);
-	}
-	
-	public void state_Battling() {
-		centerButton.setVisible(false);
-		rightButton.setVisible(true);
-		leftButton.setVisible(true);
-		topButton.setVisible(false);
-		
-		graphicsPanel.setBall2Visibility(true);
-	}
-	
-	public void state_Waiting() {
-
-		
-		centerButton.setVisible(false);
-		rightButton.setVisible(false);
-		leftButton.setVisible(false);
-		topButton.setVisible(true);
+		if (wasTyped(KEY_CONT)) application.handleEnemyCombat();
+		else if (wasTyped(KEY_SHOOT)) application.handlePlayerCombat();
+		else if (wasTyped(KEY_FLEE)) application.attemptFlee();
+		else if (wasTyped(KEY_WALK)) application.walkForward();
+		else if (wasTyped(KEY_NEW)) application.startNewGame();
+		else if (wasTyped(KEY_QUIT)) application.close();
+		else if (wasTyped(KEY_1)) application.chooseWeapon(Character.getNumericValue(input));
+		else if (wasTyped(KEY_2)) application.chooseWeapon(Character.getNumericValue(input));
+		else if (wasTyped(KEY_3)) application.chooseWeapon(Character.getNumericValue(input));
+		else System.out.println("Invalid input, please try again.\n");
 		
 	}
 	
-	public void state_Ending() {
-		centerButton.setVisible(true);
-		rightButton.setVisible(false);
-		leftButton.setVisible(false);
-		topButton.setVisible(false);
+	/**
+	 * Gets the user input.
+	 *
+	 * @return the user input
+	 */
+	private char getUserInput() {
 		
-		centerButton.setText("New Game");
-		centerButton.removeActionListener(centerButton.getActionListeners()[0]); 
-		centerButton.addActionListener((ActionEvent e) -> {
-			application.startNewGame();
-		});
+		return Character.toLowerCase(scanner.next().trim().charAt(0));
+		
 	}
 	
+	/**
+	 * Checks if is active.
+	 *
+	 * @param key the key
+	 * @return true, if is active
+	 */
+	private boolean isActive(char key) {
+		if (activeKeys[KEYS.indexOf(key)]) return true;
+		return false;
+	}
+	
+	/**
+	 * Was typed.
+	 *
+	 * @param key the key
+	 * @return true, if successful
+	 */
+	private boolean wasTyped(char key) {
+		if ((input == key) && (isActive(key))) return true;
+		return false;
+	}
+	
+	/**
+	 * Sets the state.
+	 *
+	 * @param state the new state
+	 */
+	public void setState(int state) {	
+		this.state = state;
+	}
+	
+	/**
+	 * Sets the status.
+	 *
+	 * @param status the new status
+	 */
 	public void setStatus(String status) {
-		statusLabel.setText(status);
+		this.status = status;
 	}
 	
+	/**
+	 * Adds the application.
+	 *
+	 * @param application the application
+	 */
 	public void addApplication(Application application) {
 		this.application = application;
 	}

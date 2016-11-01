@@ -1,13 +1,19 @@
 package edu.cpp.cs.cs141.prog_assgmnt_2;
 
-import javax.swing.SwingUtilities;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Main.
+ */
 public class Main {
+    
+    /**
+     * The main method.
+     *
+     * @param args the arguments
+     */
     public static void main(String[] args) { 
-    	SwingUtilities.invokeLater(() -> {
-	    	UserInterface ui = new UserInterface();
-	        ui.addApplication(new Application(ui, new Game()));
-    	});
-        
+	    	Application app = new Application(new UserInterface(), new Game());
+	    	app.startNewGame();
      }
 }
