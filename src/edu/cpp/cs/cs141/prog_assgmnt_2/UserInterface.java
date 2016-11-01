@@ -1,61 +1,71 @@
+/**
+ * CS 141: Intro to Programming and Problem Solving
+ * Professor: Edwin Rodríguez
+ *
+ * Programming Assignment #2
+ *
+ * A miniature dungeon escape game.
+ *
+ * @author J. Donald McCarthy
+ */
+
 package edu.cpp.cs.cs141.prog_assgmnt_2;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-
-// TODO: Auto-generated Javadoc
 /**
- * The Class UserInterface.
+ * This class is responsible for displaying information to the user, taking input from the
+ * user, and telling the application how to proceed based on the input.
  */
 public class UserInterface {
 
-	/** The Constant STATE_BEGINNING. */
+	/** Constant for the state UI beginning state. */
 	public static final int STATE_BEGINNING = 0;
 	
-	/** The Constant STATE_TRAVELING. */
+	/** Constant for the UI state traveling state. */
 	public static final int STATE_TRAVELING = 1;
 	
-	/** The Constant STATE_BATTLING. */
+	/** Constant for the UI battling state */
 	public static final int STATE_BATTLING = 2;
 	
-	/** The Constant STATE_ENDING. */
+	/** Constant for the UI ending state */
 	public static final int STATE_ENDING = 3;
 	
-	/** The Constant STATE_WAITING. */
+	/** Constant UI waiting state. */
 	public static final int STATE_WAITING = 4;
 	
 	
-	/** The Constant KEY_SHOOT. */
+	/** Constant KEY_SHOOT. */
 	private static final char KEY_SHOOT = 's';
 	
-	/** The Constant KEY_FLEE. */
+	/** Constant KEY_FLEE. */
 	private static final char KEY_FLEE = 'f';
 	
-	/** The Constant KEY_WALK. */
+	/** Constant KEY_WALK. */
 	private static final char KEY_WALK = 'w';
 	
-	/** The Constant KEY_QUIT. */
+	/** Constant KEY_QUIT. */
 	private static final char KEY_QUIT = 'q';
 	
-	/** The Constant KEY_NEW. */
+	/** Constant KEY_NEW. */
 	private static final char KEY_NEW = 'n';
 	
-	/** The Constant KEY_CONT. */
+	/** Constant KEY_CONT. */
 	private static final char KEY_CONT = 'c';
 	
-	/** The Constant KEY_1. */
+	/** Constant KEY_1. */
 	private static final char KEY_1 = '1';
 	
-	/** The Constant KEY_2. */
+	/** Constant KEY_2. */
 	private static final char KEY_2 = '2';
 	
-	/** The Constant KEY_3. */
+	/** Constant KEY_3. */
 	private static final char KEY_3 = '3';
 	
 	
-	/** The Constant KEYS. */
+	/** Constant list containing all keys used in the UI */
 	private static final List<Character> KEYS = Arrays.asList(
 			KEY_SHOOT, 
 			KEY_FLEE, 
@@ -67,25 +77,25 @@ public class UserInterface {
 			KEY_2, 
 			KEY_3 );
 	
-	/** The active keys. */
+	/** Array of booleans who's value at any given index represent the active state of the key at the index value */
 	private boolean[] activeKeys = new boolean[KEYS.size()];
 	
-	/** The application. */
+	/** The application that manipulates the UI state */
 	private Application application;
 	
-	/** The state. */
+	/** The state that the UI is currently in. */
 	private int state;
 	
-	/** The scanner. */
+	/** The scanner that will parse user input into the console. */
 	private Scanner scanner;
 	
-	/** The status. */
+	/** The status message that will display on every update. */
 	private String status;
 	
-	/** The instructions. */
+	/** The instruction message that will display on every update. */
 	private String instructions;
 	
-	/** The input. */
+	/** The validated character parse that the user enters into the console. */
 	private char input;
 	
 	/**
@@ -96,7 +106,7 @@ public class UserInterface {
 	}
 	
 	/**
-	 * Inits the.
+	 * sets the state to beginning and starts update loop.
 	 *
 	 * @param application the application
 	 */
@@ -106,7 +116,8 @@ public class UserInterface {
 	}
 	
 	/**
-	 * Update.
+	 * Updates the list of valid key entries, handles input from user, and gives instructions based on what is happening in the game.
+	 * Loops until program ends.
 	 */
 	public void update() {
 		
@@ -146,7 +157,8 @@ public class UserInterface {
 	}
 	
 	/**
-	 * Handle input.
+	 * Validates user input and performs commands based on what was input by the user and what was a valid
+	 * input at the time the user made the input. Otherwise reports failure to acquire valid input to user.
 	 */
 	public void handleInput() {
 		
@@ -166,7 +178,7 @@ public class UserInterface {
 	}
 	
 	/**
-	 * Gets the user input.
+	 * Gets and parses user input from console.
 	 *
 	 * @return the user input
 	 */
@@ -177,7 +189,7 @@ public class UserInterface {
 	}
 	
 	/**
-	 * Checks if is active.
+	 * Checks if a key command is active
 	 *
 	 * @param key the key
 	 * @return true, if is active
@@ -188,7 +200,7 @@ public class UserInterface {
 	}
 	
 	/**
-	 * Was typed.
+	 * Checks if a key command was active and valid at the time user entered it.
 	 *
 	 * @param key the key
 	 * @return true, if successful
@@ -199,7 +211,7 @@ public class UserInterface {
 	}
 	
 	/**
-	 * Sets the state.
+	 * Sets the UI state.
 	 *
 	 * @param state the new state
 	 */
@@ -208,7 +220,7 @@ public class UserInterface {
 	}
 	
 	/**
-	 * Sets the status.
+	 * Sets the status message to be displayed on update.
 	 *
 	 * @param status the new status
 	 */
@@ -217,7 +229,7 @@ public class UserInterface {
 	}
 	
 	/**
-	 * Adds the application.
+	 * Adds the application that controls UI states.
 	 *
 	 * @param application the application
 	 */

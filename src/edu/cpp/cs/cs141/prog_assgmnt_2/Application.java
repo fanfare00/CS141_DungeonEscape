@@ -1,17 +1,29 @@
+/**
+ * CS 141: Intro to Programming and Problem Solving
+ * Professor: Edwin Rodríguez
+ *
+ * Programming Assignment #2
+ *
+ * A miniature dungeon escape game.
+ *
+ * @author J. Donald McCarthy
+ */
+
+
 package edu.cpp.cs.cs141.prog_assgmnt_2;
 
 import edu.cpp.cs.cs141.prog_assgmnt_2.weapons.*;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Application.
+ * The purpose of this class is to update the game's logic and change the UI state based on what is occurring
+ * in the game. 
  */
 public class Application {
 	
-	/** The ui. */
+	/** The UserInterface who's display will be altered by this Application. */
 	private UserInterface ui;
 	
-	/** The game. */
+	/** The Game who's logic will will be updated based on the user's interaction with the UI */
 	private Game game;
 	
 	
@@ -27,7 +39,8 @@ public class Application {
 	}
 	
 	/**
-	 * Handle player combat.
+	 * This method decides what state to put the UI into and what message the UI will display based on the outcome of 
+	 * the game's probability based combat functions relating to it's player object.
 	 */
 	public void handlePlayerCombat() {
 		if (game.getPlayerCurrentAmmo() != 0) {
@@ -66,7 +79,8 @@ public class Application {
 	}
 	
 	/**
-	 * Handle enemy combat.
+	 * This method decides what state to put the UI into and what message the UI will display based on the outcome of 
+	 * the game's probability based combat functions relating to it's enemy object.
 	 */
 	public void handleEnemyCombat() {
 		if(game.attemptShootPlayer()) {
@@ -86,7 +100,8 @@ public class Application {
 	}
 	
 	/**
-	 * Start new game.
+	 * This method initializes the UI class and the game class and sets the UI to display messages
+	 * relating to the beginning of the game.
 	 */
 	public void startNewGame() {
 		game = new Game();
@@ -112,12 +127,13 @@ public class Application {
 	}
 
 	/**
-	 * Attempt flee.
+	 * This method decides what state to put the UI into and what message the UI will display based on the outcome of 
+	 * the game's probability based flee function.
 	 */
 	public void attemptFlee() {
 		
 		if(game.attemptPlayerFlee()) { 
-			game.movePlayer(-1);
+			
 			ui.setStatus("You escaped the mummy, but you moved back one pace.\n" +
 					"The exit is only " + game.getPacesRemaining() + " paces away, keep moving!");
 			ui.setState(UserInterface.STATE_TRAVELING);
@@ -129,12 +145,12 @@ public class Application {
 	}
 
 	/**
-	 * Walk forward.
+	 * This method decides what state to put the UI into and what message the UI will display based on whether or not
+	 * the game is over and if not, then on the outcome of the game's probability based spawning function.
 	 */
 	public void walkForward() {
-
 		
-		game.movePlayer(1);
+		game.movePlayerForward();
 		
 		if (game.getPacesRemaining() == 0) {
 			ui.setStatus("You've made it to the exit. You win! Start new Game?");
@@ -144,7 +160,7 @@ public class Application {
 		
 		
 		
-		if (game.spawnEnemy()) {
+		if (game.attemptSpawnEnemy()) {
 			ui.setStatus("A mummy with a " + game.getEnemyWeaponName() + " has appeared!");
 			ui.setState(UserInterface.STATE_BATTLING);
 		} else {
@@ -153,9 +169,9 @@ public class Application {
 	}
 
 	/**
-	 * Choose weapon.
+	 * Sets the game's player object to use a weapon type chosen by the user.
 	 *
-	 * @param wepChoice the wep choice
+	 * @param wepChoice the weapon choice
 	 */
 	public void chooseWeapon(int wepChoice) {
 		game.init(wepChoice);
@@ -165,10 +181,10 @@ public class Application {
 	}
 
 	/**
-	 * Close.
+	 * Closes the program.
 	 */
 	public void close() {
-		System.out.println("HEY");
+		System.exit(0);
 	}
 	
 
